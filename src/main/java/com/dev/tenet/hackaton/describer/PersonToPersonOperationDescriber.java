@@ -26,6 +26,6 @@ public class PersonToPersonOperationDescriber extends OperationDescriber {
 
     @Override
     public Integer firstStep() {
-        return 1;
+        return 2;
     }
 }

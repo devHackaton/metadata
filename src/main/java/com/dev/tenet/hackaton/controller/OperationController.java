@@ -37,18 +37,23 @@ public class OperationController {
     }
 
     @GetMapping("/{operation}/{step}/{state}")
-    public void initiateNextStep(@PathVariable Integer operation,
+    public int initiateNextStep(@PathVariable Integer operation,
                                  @PathVariable Integer step,
                                  @PathVariable OperationState state) {
 
         Integer nextStep = operationsHolder.getById(operation)
                 .getOperationDescriber()
                 .nextStep(step, state);
-        kafkaProducer.sendEventMessage(nextStepEvent(getUserId(), nextStep), websocketTopic);
+        if (nextStep == -1) {
+            //последний этап регистрации операции пройден, нужно
+            //отдать клиенту форму подтверждения операции
+        }
+//        kafkaProducer.sendEventMessage(nextStepEvent(getUserId(), nextStep), websocketTopic);
+        return nextStep;
     }
 
     @GetMapping("/{operation}/{step}")
-    public void initiateNextStep(@PathVariable Integer operation,
+    public void getStepMetadata(@PathVariable Integer operation,
                                  @PathVariable Integer step) {
 
         Operation operationById = operationsHolder.getById(operation);
