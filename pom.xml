@@ -20,8 +20,6 @@
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
         <spring-cloud-sleuth.version>2.2.2.RELEASE</spring-cloud-sleuth.version>
         <spring.kafka.version>2.2.14.RELEASE</spring.kafka.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.7.0</junit.version>
         <org.apache.httpcomponents.httpclient>4.5.13</org.apache.httpcomponents.httpclient>

@@ -1,0 +1,52 @@
+definitions:
+  steps:
+    - step: &build
+        name: Build
+        services:
+          - docker
+        script:
+          - mvn -B clean package -Dmaven.test.skip=true
+        artifacts:
+          - target/*.jar
+    - step: &branch-deploy
+        name: Package and deploy
+        services:
+          - docker
+        script:
+          - export IMAGE_NAME=$DOCKER_REGISTRY/metadata:master
+          - docker build . -t metadata:master
+          - docker tag metadata:master ${IMAGE_NAME}
+          - echo "Build completed"
+          - docker login --username ${DOCKER_REGISTRY_LOGIN} --password ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY_ADDR}
+          - docker push ${IMAGE_NAME}
+          - ssh-keyscan -t rsa ${DEPLOY_SSH_HOST} >> ~/.ssh/known_hosts
+          - ssh -tt -i ~/.ssh/config ${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST} sudo -n docker-compose -f /opt/docker/docker-compose.yml pull metadata
+          - ssh -tt -i ~/.ssh/config ${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST} sudo -n docker-compose -f /opt/docker/docker-compose.yml stop metadata
+          - ssh -tt -i ~/.ssh/config ${DEPLOY_SSH_USER}@${DEPLOY_SSH_HOST} sudo -n docker-compose -f /opt/docker/docker-compose.yml up -d metadata
+
+
+pipelines:
+  custom:
+    deploy-dev:
+      - step: *build
+      - step:
+          <<: *branch-deploy
+          name: Deploy on dev env
+          trigger: manual
+          deployment: dev
+    deploy-staging:
+      - step: *build
+      - step:
+          <<: *branch-deploy
+          name: Deploy on staging env
+          trigger: manual
+          deployment: staging
+  pull-requests:
+    '**':
+      - step:
+          name: Build
+          script:
+            - mvn clean package -q
+          services:
+            - docker
+
