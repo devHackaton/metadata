@@ -12,4 +12,4 @@ spring:
   kafka:
     bootstrap-servers: 84.201.167.235:9092
     topic:
-      websocket: websocket-gateway
+      websocket: websocket-events
