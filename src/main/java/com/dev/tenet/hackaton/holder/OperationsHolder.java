@@ -1,7 +1,6 @@
 package com.dev.tenet.hackaton.holder;
 
 import com.dev.tenet.hackaton.model.Operation;
-import com.dev.tenet.hackaton.service.SocketServiceSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,6 @@ import static java.util.function.UnaryOperator.identity;
 @RequiredArgsConstructor
 @Component
 public class OperationsHolder {
-    private final SocketServiceSender<Integer> socketService;
 
     private final Map<String, Operation> name2Operation = new ConcurrentHashMap<>();
     private final Map<Integer, Operation> id2Operation = new ConcurrentHashMap<>();

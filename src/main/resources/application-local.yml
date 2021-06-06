@@ -1,0 +1,14 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://84.201.167.235:8761/eureka
+    register-with-eureka: false
+  instance:
+    preferIpAddress: true
+
+
+spring:
+  kafka:
+    bootstrap-servers: 84.201.167.235:9092
+    topic:
+      websocket: websocket-gateway
