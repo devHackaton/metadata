@@ -21,8 +21,6 @@ import static com.dev.tenet.hackaton.utils.AuthUtil.getUserId;
 @RequestMapping("/operations")
 @RequiredArgsConstructor
 public class OperationController {
-//PersonToPersonTransferOperation
-//    private final SocketServiceSender<Object> socketService;
     private final OperationsHolder operationsHolder;
     private final KafkaProducer kafkaProducer;
     @Value("${spring.kafka.topic.websocket}")
@@ -46,7 +44,6 @@ public class OperationController {
         Integer nextStep = operationsHolder.getById(operation)
                 .getOperationDescriber()
                 .nextStep(step, state);
-//        socketService.sendTo(getUserId(), nextStep);
         kafkaProducer.sendEventMessage(nextStepEvent(getUserId(), nextStep), websocketTopic);
     }
 
@@ -55,7 +52,6 @@ public class OperationController {
                                  @PathVariable Integer step) {
 
         Operation operationById = operationsHolder.getById(operation);
-//        socketService.sendTo(getUserId(), operationById);
         kafkaProducer.sendEventMessage(nextStepEventByOperation(getUserId(), operationById), websocketTopic);
     }
 }
