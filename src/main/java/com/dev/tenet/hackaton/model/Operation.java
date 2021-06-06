@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public abstract class Operation {
-    private transient OperationDescriber operationDescriber;
-    private final String name;
-    private final Integer id;
-    private final List<FieldMetadata> fields;
+    protected transient OperationDescriber operationDescriber;
+    protected String name;
+    protected Integer id;
+    protected List<FieldMetadata> fields;
 }

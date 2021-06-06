@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class OperationDescriber {
-    private final Map<Integer, Map<OperationState, Integer>> map = new ConcurrentHashMap<>();
+    protected final Map<Integer, Map<OperationState, Integer>> map = new ConcurrentHashMap<>();
     private final Map<Integer, OperationStep> stepMap = new ConcurrentHashMap<>();
 
     public Integer nextStep(int currentStep, OperationState state) {
